@@ -6,6 +6,8 @@ with open(default_allowed_extensions_path,"r") as f:
 
 def count_dir(dir,allowed_extensions,blacklist,result={}):
     items = os.listdir(dir)
+    result["lines"] = {}
+    result["chars"] = {}
     for item in items:
         if os.path.isdir(item):
             count_dir(os.path.join(dir,item), allowed_extensions, blacklist, result)
@@ -18,10 +20,14 @@ def count_dir(dir,allowed_extensions,blacklist,result={}):
             extension = item.split(".")[-1].lower()
             if extension in allowed_extensions:
                 with open(os.path.join(dir,item), "r") as f:
-                    count = len(f.readlines())
-                    if not extension in result:
-                        result[extension] = 0
-                    result[extension] += count
+                    data = f.read()
+                    lines = len(data.split("\n"))
+                    chars = len(data)
+                    if not extension in result["lines"]:
+                        result["lines"][extension] = 0
+                        result["chars"][extension] = 0
+                    result["lines"] [extension] += lines
+                    result["chars"] [extension] += chars
     return result
 
 @arguably.command
