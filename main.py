@@ -9,6 +9,8 @@ def count_dir(dir,allowed_extensions,blacklist,result={}):
     if result == {}:
         result["lines"] = {}
         result["chars"] = {}
+        result["lines"]["TOTAL"] = 0
+        result["chars"]["TOTAL"] = 0
     for item in items:
         if item in blacklist:
             continue
@@ -29,6 +31,8 @@ def count_dir(dir,allowed_extensions,blacklist,result={}):
                         result["chars"][extension] = 0
                     result["lines"][extension] += lines
                     result["chars"][extension] += chars
+                    result["lines"]["TOTAL"] += lines
+                    result["chars"]["TOTAL"] += chars
     return result
 
 @arguably.command
