@@ -1,4 +1,4 @@
-import os, arguably
+import os, arguably, yaml
 
 default_allowed_extensions_path = os.path.join((os.path.dirname(os.path.realpath(__file__))),"default_allowed_extensions.txt")
 with open(default_allowed_extensions_path,"r") as f:
@@ -15,7 +15,6 @@ def count_dir(dir,allowed_extensions,blacklist,result={}):
             if not "." in item:
                 continue
             if item in blacklist:
-                print("wea")
                 continue
             extension = item.split(".")[-1].lower()
             if extension in allowed_extensions:
@@ -43,7 +42,7 @@ def scan(directory=os.getcwd(),blacklist:list[str]=[],allowed_extensions:list[st
     if not allowed_extensions:
         allowed_extensions = default_allowed_extensions
 
-    print(count_dir(directory,allowed_extensions,blacklist))
+    print(yaml.dump(count_dir(directory,allowed_extensions,blacklist),indent=4),end="",flush=True)
     
 
 if __name__ == "__main__":
