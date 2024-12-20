@@ -1,5 +1,4 @@
-# codecounter> python <path_to_script> "my_cool_project"
-
+# codecounter
 
 python cli tool to count the number of lines and characters of code in a directory and its subdirectories
 
