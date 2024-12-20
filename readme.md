@@ -5,7 +5,7 @@ python cli tool to count the number of lines and characters of code in a directo
 because fun statistics!
 
 example usage:
-```
+```batch
 > cd my_cool_project
 > python <path_to_script>
 chars:
@@ -14,8 +14,9 @@ chars:
 lines:
     TOTAL: 55
     py: 55
+>
 ```
-```
+```batch
 > python <path_to_script> "my_cool_project"
 chars:
     TOTAL: 2172
@@ -23,8 +24,9 @@ chars:
 lines:
     TOTAL: 55
     py: 55
+>
 ```
-```
+```batch
 > cd soysoupOS
 > python <path_to_script> --blacklist="programs.js",".git"
 chars:
