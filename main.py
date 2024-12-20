@@ -6,31 +6,33 @@ with open(default_allowed_extensions_path,"r") as f:
 
 def count_dir(dir,allowed_extensions,blacklist,result={}):
     items = os.listdir(dir)
-    result["lines"] = {}
-    result["chars"] = {}
+    if result == {}:
+        result["lines"] = {}
+        result["chars"] = {}
     for item in items:
-        if os.path.isdir(item):
-            count_dir(os.path.join(dir,item), allowed_extensions, blacklist, result)
+        if item in blacklist:
+            continue
+        path = os.path.join(dir,item)
+        if os.path.isdir(path):
+            count_dir(path, allowed_extensions, blacklist, result)
         else:
             if not "." in item:
                 continue
-            if item in blacklist:
-                continue
             extension = item.split(".")[-1].lower()
             if extension in allowed_extensions:
-                with open(os.path.join(dir,item), "r") as f:
+                with open(path, "r") as f:
                     data = f.read()
                     lines = len(data.split("\n"))
                     chars = len(data)
                     if not extension in result["lines"]:
                         result["lines"][extension] = 0
                         result["chars"][extension] = 0
-                    result["lines"] [extension] += lines
-                    result["chars"] [extension] += chars
+                    result["lines"][extension] += lines
+                    result["chars"][extension] += chars
     return result
 
 @arguably.command
-def scan(directory=os.getcwd(),blacklist:list[str]=[],allowed_extensions:list[str]=None):
+def scan(directory=os.getcwd(),*others,blacklist:list[str]=[],allowed_extensions:list[str]=None):
     """
     count the number of lines of code in a directory its subdirectories
 
@@ -41,7 +43,7 @@ def scan(directory=os.getcwd(),blacklist:list[str]=[],allowed_extensions:list[st
     """
     if not allowed_extensions:
         allowed_extensions = default_allowed_extensions
-
+        
     print(yaml.dump(count_dir(directory,allowed_extensions,blacklist),indent=4),end="",flush=True)
     
 
