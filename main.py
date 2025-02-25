@@ -22,17 +22,20 @@ def count_dir(dir,allowed_extensions,exclude_list,result={}):
                 continue
             extension = item.split(".")[-1].lower()
             if extension in allowed_extensions:
-                with open(path, "r") as f:
-                    data = f.read()
-                    lines = len(data.split("\n"))
-                    chars = len(data)
-                    if not extension in result["lines"]:
-                        result["lines"][extension] = 0
-                        result["chars"][extension] = 0
-                    result["lines"][extension] += lines
-                    result["chars"][extension] += chars
-                    result["lines"]["TOTAL"] += lines
-                    result["chars"]["TOTAL"] += chars
+                try: 
+                    with open(path, "r") as f:
+                        data = f.read()
+                        lines = len(data.split("\n"))
+                        chars = len(data)
+                        if not extension in result["lines"]:
+                            result["lines"][extension] = 0
+                            result["chars"][extension] = 0
+                        result["lines"][extension] += lines
+                        result["chars"][extension] += chars
+                        result["lines"]["TOTAL"] += lines
+                        result["chars"]["TOTAL"] += chars
+                except:
+                    pass
     return result
 
 @arguably.command
